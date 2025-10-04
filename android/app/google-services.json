@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "720039098644",
+    "firebase_url": "https://cipher-7791c-default-rtdb.firebaseio.com",
+    "project_id": "cipher-7791c",
+    "storage_bucket": "cipher-7791c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720039098644:android:c6ffce28a65aedb546ea01",
+        "android_client_info": {
+          "package_name": "com.cipher.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720039098644-7q993lm7jtic27187a5875pcfmu275ln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPWdZ8dgaC5HjcGapRoMJwOxBmmz50d-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720039098644-7q993lm7jtic27187a5875pcfmu275ln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
