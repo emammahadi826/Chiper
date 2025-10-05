@@ -196,19 +196,21 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
           TextButton(
             onPressed: () async {
               await _saveMemo();
-              // Ensure the UI updates to show "Save" before popping
               if (mounted) {
-                await Future.delayed(Duration.zero); // Allow setState to rebuild
                 Navigator.pop(context);
               }
             },
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              side: BorderSide(color: Colors.transparent),
+            ),
             child: _isSaving
                 ? SizedBox(
                     width: 20.r,
                     height: 20.r,
                     child: CircularProgressIndicator(strokeWidth: 2.r, color: mainColor),
                   )
-                : Text('Save', style: TextStyle(color: mainColor, fontSize: 20.sp)),
+                : Text('Save', style: TextStyle(color: mainColor, fontSize: 18.sp)),
           ),
         ],
         title: null, // No title in AppBar
