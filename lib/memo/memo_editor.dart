@@ -6,6 +6,8 @@ import 'package:chiper/Services/memo_service.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart'; // Import for TapGestureRecognizer
+import 'dart:ui' as ui;
+import 'package:google_fonts/google_fonts.dart';
 
 class MemoEditorPage extends StatefulWidget {
   final Memo? memo;
@@ -19,6 +21,7 @@ class MemoEditorPage extends StatefulWidget {
 class _MemoEditorPageState extends State<MemoEditorPage> {
   late TextEditingController _titleController;
   late TextEditingController _contentController;
+  final FocusNode _contentFocusNode = FocusNode();
   final MemoService _memoService = MemoService();
   bool _isSaving = false;
 
@@ -36,6 +39,7 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
   void dispose() {
     _titleController.dispose();
     _contentController.dispose();
+    _contentFocusNode.dispose();
     super.dispose();
   }
 
@@ -224,36 +228,71 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _titleController,
-              style: theme.textTheme.headlineSmall?.copyWith(color: mainColor), // Use theme text style
-              decoration: InputDecoration(
-                hintText: 'Title...',
-                hintStyle: theme.textTheme.headlineSmall?.copyWith(color: subColor), // Use theme text style for hint
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: subColor.withOpacity(0.5), width: 1.r),
+            Theme(
+              data: theme.copyWith(
+                textSelectionTheme: TextSelectionThemeData(
+                  selectionColor: theme.brightness == Brightness.dark
+                      ? Colors.white.withOpacity(0.3)
+                      : Colors.black.withOpacity(0.3),
+                  cursorColor: theme.brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: mainColor, width: 2.r),
-                ),
-                contentPadding: EdgeInsets.symmetric(vertical: 10.h),
               ),
-              maxLines: null, // Allow title to expand if needed
-              keyboardType: TextInputType.multiline,
+              child: TextField(
+                controller: _titleController,
+                style: GoogleFonts.merriweather(
+                  textStyle: theme.textTheme.headlineMedium?.copyWith(color: mainColor),
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Title...',
+                  hintStyle: GoogleFonts.merriweather(
+                    textStyle: theme.textTheme.headlineMedium?.copyWith(color: subColor),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: subColor.withOpacity(0.5), width: 1.r),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: mainColor, width: 2.r),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.h),
+                ),
+                maxLines: null, // Allow title to expand if needed
+                keyboardType: TextInputType.multiline,
+              ),
             ),
             SizedBox(height: 16.h),
-            TextField(
-              controller: _contentController,
-              style: theme.textTheme.bodyLarge?.copyWith(color: mainColor), // Use theme text style
-              decoration: InputDecoration(
-                hintText: 'Content...',
-                hintStyle: theme.textTheme.bodyLarge?.copyWith(color: subColor), // Use theme text style for hint
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
+            Theme(
+              data: theme.copyWith(
+                textSelectionTheme: TextSelectionThemeData(
+                  selectionColor: theme.brightness == Brightness.dark
+                      ? Colors.white.withOpacity(0.3)
+                      : Colors.black.withOpacity(0.3),
+                  cursorColor: theme.brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
               ),
-              maxLines: null, // Allows multiple lines
-              keyboardType: TextInputType.multiline,
-              expands: false, // Set to false as it's inside SingleChildScrollView
+              child: TextField(
+                controller: _contentController,
+                focusNode: _contentFocusNode,
+                style: GoogleFonts.lato(
+                  textStyle: theme.textTheme.bodyMedium?.copyWith(color: mainColor),
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Content...',
+                  hintStyle: GoogleFonts.lato(
+                    textStyle: theme.textTheme.bodyMedium?.copyWith(color: subColor),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                ),
+                maxLines: null, // Allows multiple lines
+                keyboardType: TextInputType.multiline,
+                expands: false, // Set to false as it's inside SingleChildScrollView
+                selectionHeightStyle: ui.BoxHeightStyle.max,
+                selectionWidthStyle: ui.BoxWidthStyle.max,
+              ),
             ),
           ],
         ),

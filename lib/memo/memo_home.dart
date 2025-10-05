@@ -203,29 +203,33 @@ class _MemoHomePageState extends State<MemoHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.appBarTheme.backgroundColor,
-        title: Text(
-          _isSelectionMode ? '${_selectedMemos.length} Selected' : 'Memo',
-          style: theme.appBarTheme.titleTextStyle?.copyWith(color: mainColor),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _isSelectionMode ? '${_selectedMemos.length} Selected' : 'Memo',
+              style: theme.appBarTheme.titleTextStyle?.copyWith(color: mainColor),
+            ),
+            if (_isSelectionMode)
+              IconButton(
+                icon: Icon(Icons.delete, color: mainColor),
+                onPressed: _deleteSelectedMemos,
+              )
+            else
+              IconButton(
+                icon: Icon(Icons.add, color: mainColor),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MemoEditorPage()),
+                  );
+                },
+              ),
+          ],
         ),
         foregroundColor: theme.appBarTheme.foregroundColor,
         elevation: theme.appBarTheme.elevation,
-        actions: [
-          if (_isSelectionMode)
-            IconButton(
-              icon: Icon(Icons.delete, color: mainColor),
-              onPressed: _deleteSelectedMemos,
-            )
-          else
-            IconButton(
-              icon: Icon(Icons.add, color: mainColor),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MemoEditorPage()),
-                );
-              },
-            ),
-        ],
+        actions: [],
       ),
       body: StreamBuilder<List<Memo>>(
         stream: _memoService.getMemos(),
