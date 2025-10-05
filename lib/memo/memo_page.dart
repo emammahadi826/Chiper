@@ -8,22 +8,12 @@ class MemoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final mainColor = theme.colorScheme.onSurface;
-    final bgColor = theme.scaffoldBackgroundColor;
 
     return Scaffold(
-      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: bgColor,
-        title: Text(
-          'Memo Page',
-          style: TextStyle(
-            color: mainColor,
-            fontSize: 22.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text('Memo Page'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: mainColor),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

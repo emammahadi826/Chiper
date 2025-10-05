@@ -183,7 +183,7 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
     final linkColor = Colors.blue; // Use a distinct blue color for links
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface, // Match AppBar background
+      backgroundColor: theme.scaffoldBackgroundColor, // Use scaffoldBackgroundColor for consistency
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.close, color: mainColor),
@@ -212,9 +212,10 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
           ),
         ],
         title: null, // No title in AppBar
-        backgroundColor: theme.colorScheme.surface, // Use theme's surface color for AppBar background
+        backgroundColor: theme.appBarTheme.backgroundColor, // Use theme's surface color for AppBar background
         elevation: 0.0, // No shadow for AppBar
         scrolledUnderElevation: 0.0, // Ensure no elevation when scrolled under
+        surfaceTintColor: Colors.transparent, // Set surface tint color to transparent
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0.r),
@@ -223,10 +224,10 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
           children: [
             TextField(
               controller: _titleController,
-              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold, color: mainColor),
+              style: theme.textTheme.headlineSmall?.copyWith(color: mainColor), // Use theme text style
               decoration: InputDecoration(
                 hintText: 'Title...',
-                hintStyle: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold, color: subColor),
+                hintStyle: theme.textTheme.headlineSmall?.copyWith(color: subColor), // Use theme text style for hint
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: subColor.withOpacity(0.5), width: 1.r),
                 ),
@@ -241,10 +242,10 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
             SizedBox(height: 16.h),
             TextField(
               controller: _contentController,
-              style: TextStyle(fontSize: 16.sp, color: mainColor),
+              style: theme.textTheme.bodyLarge?.copyWith(color: mainColor), // Use theme text style
               decoration: InputDecoration(
                 hintText: 'Content...',
-                hintStyle: TextStyle(fontSize: 16.sp, color: subColor),
+                hintStyle: theme.textTheme.bodyLarge?.copyWith(color: subColor), // Use theme text style for hint
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.zero,
               ),
