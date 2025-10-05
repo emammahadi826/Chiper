@@ -26,13 +26,7 @@ class _TaskHomePageState extends State<TaskHomePage> with SingleTickerProviderSt
   void initState() {
     super.initState();
     _loadFabPosition();
-    _initServices().then((_) {
-      if (mounted) {
-        setState(() {
-          _isInitializing = false;
-        });
-      }
-    });
+    _initServices();
     _tabController = TabController(length: 2, vsync: this); // Initialize TabController
   }
 
@@ -62,56 +56,30 @@ class _TaskHomePageState extends State<TaskHomePage> with SingleTickerProviderSt
   Future<void> _initServices() async {
     _taskBox = await Hive.openBox<Task>('tasks');
     _taskUpdaterService = TaskUpdaterService(_taskBox);
-    // Initial sync on startup
-    await _taskUpdaterService.syncTasks();
+    if (mounted) {
+      setState(() {
+        _isInitializing = false;
+      });
+    }
+    if (_taskBox.isEmpty) {
+      // Initial sync on startup only if the box is empty
+      await _taskUpdaterService.syncTasks();
+    }
   }
 
   void _addTask(String taskContent) async {
     final newTask = Task.createNew(content: taskContent);
-    await _taskBox.put(newTask.id, newTask); // Save to Hive first
+    await _taskUpdaterService.addTask(newTask);
     setState(() {}); // Update UI immediately
-    await _taskUpdaterService.syncTasks(); // Attempt to sync immediately
   }
 
   void _toggleTaskCompletion(Task task) async {
-    print('Toggling task: ${task.id}, current isCompleted: ${task.isCompleted}');
-    // Start fade-out animation
-    setState(() {
-      _isFadingOut[task.id] = true;
-    });
-
-    // Wait for animation to complete before updating data and letting it disappear from the list
-    await Future.delayed(const Duration(milliseconds: 300)); // Match AnimatedOpacity duration
-
     task.isCompleted = !task.isCompleted;
-    task.isSynced = false; // Mark as unsynced for re-sync
-    print('Task: ${task.id}, new isCompleted (before Hive put): ${task.isCompleted}');
-
-    // Create a new Task object with updated completion status to ensure Hive listener is triggered
-    final updatedTask = Task(
-      id: task.id,
-      content: task.content,
-      timestamp: task.timestamp,
-      isCompleted: task.isCompleted,
-      isSynced: task.isSynced,
-    );
-    await _taskBox.put(updatedTask.id, updatedTask); // Update Hive record and trigger listener
-    print('Task: ${updatedTask.id}, new isCompleted (after Hive put): ${updatedTask.isCompleted}');
-
-    // Remove from fading out map after data update
-    setState(() {
-      _isFadingOut.remove(task.id);
-    });
-
-    await _taskUpdaterService.syncTasks(); // Attempt to sync immediately
-    print('Task: ${updatedTask.id}, after syncTasks, final isCompleted: ${updatedTask.isCompleted}');
+    await _taskUpdaterService.updateTask(task);
+    setState(() {});
   }
 
   Future<void> _deleteTask(Task task) async {
-    // Delete from Hive
-    await _taskBox.delete(task.id);
-
-    // Delete from Firestore via service
     await _taskUpdaterService.deleteTask(task.id);
     setState(() {}); // Update UI immediately
   }
@@ -179,120 +147,123 @@ class _TaskHomePageState extends State<TaskHomePage> with SingleTickerProviderSt
           );
         }
 
-        return ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          itemCount: filteredTasks.length,
-          itemBuilder: (context, index) {
-            final task = filteredTasks[index];
-            final isDarkMode = theme.brightness == Brightness.dark;
+        return RefreshIndicator(
+          onRefresh: () => _taskUpdaterService.syncTasks(),
+          child: ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            itemCount: filteredTasks.length,
+            itemBuilder: (context, index) {
+              final task = filteredTasks[index];
+              final isDarkMode = theme.brightness == Brightness.dark;
 
-            return Dismissible(
-              key: Key(task.id),
-              direction: isCompletedTab ? DismissDirection.endToStart : DismissDirection.startToEnd, // Conditional swipe direction
-              onDismissed: (direction) {
-                _deleteTask(task);
-              },
-              background: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: theme.brightness == Brightness.light ? Colors.black : Colors.white, // Inverted color
-                ),
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(left: 20.w),
-                child: Row(
-                  children: [
-                    Icon(Icons.delete, color: theme.brightness == Brightness.light ? Colors.white : Colors.black, size: 30.r), // Inverted icon color
-                    SizedBox(width: 10.w),
-                    Text('Delete', style: TextStyle(color: theme.brightness == Brightness.light ? Colors.white : Colors.black, fontSize: 18.sp)), // Inverted text color
-                  ],
-                ),
-              ),
-              secondaryBackground: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: theme.brightness == Brightness.light ? Colors.black : Colors.white, // Inverted color
-                ),
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.only(right: 20.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('Delete', style: TextStyle(color: theme.brightness == Brightness.light ? Colors.white : Colors.black, fontSize: 18.sp)), // Inverted text color
-                    SizedBox(width: 10.w),
-                    Icon(Icons.delete, color: theme.brightness == Brightness.light ? Colors.white : Colors.black, size: 30.r), // Inverted icon color
-                  ],
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 8.h), // Reduced vertical padding
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
+              return Dismissible(
+                key: Key(task.id),
+                direction: isCompletedTab ? DismissDirection.endToStart : DismissDirection.startToEnd, // Conditional swipe direction
+                onDismissed: (direction) {
+                  _deleteTask(task);
+                },
+                background: Container(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.0),
-                    onTap: () {
-                      // No specific action on tap for the whole item, checkbox handles completion
-                    },
-                    child: Container(
-                      height: 55.h,
-                      decoration: BoxDecoration(
-                        color: theme.cardColor,
-                        borderRadius: BorderRadius.circular(12.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
-                            blurRadius: 8.0.r,
-                            offset: Offset(0, 4.r),
-                          ),
-                        ],
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: task.isCompleted,
-                            onChanged: (bool? newValue) {
-                              _toggleTaskCompletion(task);
-                            },
-                            activeColor: isDarkMode ? Colors.white : Colors.black,
-                            checkColor: isDarkMode ? Colors.black : Colors.white,
-                            side: BorderSide(
-                              color: isDarkMode ? Colors.white : Colors.black,
-                              width: 2.0,
+                    color: theme.brightness == Brightness.light ? Colors.black : Colors.white, // Inverted color
+                  ),
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 20.w),
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete, color: theme.brightness == Brightness.light ? Colors.white : Colors.black, size: 30.r), // Inverted icon color
+                      SizedBox(width: 10.w),
+                      Text('Delete', style: TextStyle(color: theme.brightness == Brightness.light ? Colors.white : Colors.black, fontSize: 18.sp)), // Inverted text color
+                    ],
+                  ),
+                ),
+                secondaryBackground: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: theme.brightness == Brightness.light ? Colors.black : Colors.white, // Inverted color
+                  ),
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 20.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('Delete', style: TextStyle(color: theme.brightness == Brightness.light ? Colors.white : Colors.black, fontSize: 18.sp)), // Inverted text color
+                      SizedBox(width: 10.w),
+                      Icon(Icons.delete, color: theme.brightness == Brightness.light ? Colors.white : Colors.black, size: 30.r), // Inverted icon color
+                    ],
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 8.h), // Reduced vertical padding
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12.0),
+                      onTap: () {
+                        // No specific action on tap for the whole item, checkbox handles completion
+                      },
+                      child: Container(
+                        height: 55.h,
+                        decoration: BoxDecoration(
+                          color: theme.cardColor,
+                          borderRadius: BorderRadius.circular(12.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.08),
+                              blurRadius: 8.0.r,
+                              offset: Offset(0, 4.r),
                             ),
-                          ),
-                          SizedBox(width: 16.w), // Spacing between checkbox and text
-                          Expanded(
-                            child: Text(
-                              task.content,
-                              style: TextStyle(
-                                fontSize: 18.sp, // Adjusted font size for tasks
-                                fontWeight: FontWeight.w500, // Adjusted font weight
-                                color: task.isCompleted
-                                    ? theme.hintColor // Use hintColor for completed tasks
-                                    : mainColor, // Use mainColor for incomplete tasks
-                                decoration: task.isCompleted
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                              ),
-                              maxLines: 1, // Allow up to 1 line for task content
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          if (!isCompletedTab) // Only show complete button for current tasks
-                            IconButton(
-                              icon: Icon(Icons.check_circle_outline, color: theme.colorScheme.primary),
-                              onPressed: () {
+                          ],
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: task.isCompleted,
+                              onChanged: (bool? newValue) {
                                 _toggleTaskCompletion(task);
                               },
+                              activeColor: isDarkMode ? Colors.white : Colors.black,
+                              checkColor: isDarkMode ? Colors.black : Colors.white,
+                              side: BorderSide(
+                                color: isDarkMode ? Colors.white : Colors.black,
+                                width: 2.0,
+                              ),
                             ),
-                        ],
+                            SizedBox(width: 16.w), // Spacing between checkbox and text
+                            Expanded(
+                              child: Text(
+                                task.content,
+                                style: TextStyle(
+                                  fontSize: 18.sp, // Adjusted font size for tasks
+                                  fontWeight: FontWeight.w500, // Adjusted font weight
+                                  color: task.isCompleted
+                                      ? theme.hintColor // Use hintColor for completed tasks
+                                      : mainColor, // Use mainColor for incomplete tasks
+                                  decoration: task.isCompleted
+                                      ? TextDecoration.lineThrough
+                                      : TextDecoration.none,
+                                ),
+                                maxLines: 1, // Allow up to 1 line for task content
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (!isCompletedTab) // Only show complete button for current tasks
+                              IconButton(
+                                icon: Icon(Icons.check_circle_outline, color: theme.colorScheme.primary),
+                                onPressed: () {
+                                  _toggleTaskCompletion(task);
+                                },
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );

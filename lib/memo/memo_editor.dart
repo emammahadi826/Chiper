@@ -197,24 +197,27 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
           },
         ),
         actions: [
-          TextButton(
-            onPressed: () async {
-              await _saveMemo();
-              if (mounted) {
-                Navigator.pop(context);
-              }
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              side: BorderSide(color: Colors.transparent),
+          Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: TextButton(
+              onPressed: () async {
+                await _saveMemo();
+                if (mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                side: BorderSide(color: Colors.transparent),
+              ),
+              child: _isSaving
+                  ? SizedBox(
+                      width: 20.r,
+                      height: 20.r,
+                      child: CircularProgressIndicator(strokeWidth: 2.r, color: mainColor),
+                    )
+                  : Text('Save', style: TextStyle(color: mainColor, fontSize: 18.sp)),
             ),
-            child: _isSaving
-                ? SizedBox(
-                    width: 20.r,
-                    height: 20.r,
-                    child: CircularProgressIndicator(strokeWidth: 2.r, color: mainColor),
-                  )
-                : Text('Save', style: TextStyle(color: mainColor, fontSize: 18.sp)),
           ),
         ],
         title: null, // No title in AppBar

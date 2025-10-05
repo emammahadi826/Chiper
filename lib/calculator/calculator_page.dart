@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:chiper/calculator/calculator_history_page.dart';
 import 'package:chiper/services/secret_code_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CalculatorPage extends StatefulWidget {
   const CalculatorPage({super.key});
@@ -523,10 +524,11 @@ class _CalculatorButtonState extends State<_CalculatorButton> with SingleTickerP
             child: Center(
               child: Text(
                 widget.text,
-                style: theme.textTheme.bodyLarge!.copyWith(
-                  color: widget.textColor,
-                  fontSize: 20.0.sp, // Adjusted font size for smaller buttons
-                  fontFamily: 'Roboto',
+                style: GoogleFonts.orbitron(
+                  textStyle: theme.textTheme.bodyLarge!.copyWith(
+                    color: widget.textColor,
+                    fontSize: 20.0.sp, // Adjusted font size for smaller buttons
+                  ),
                 ),
               ),
             ),
