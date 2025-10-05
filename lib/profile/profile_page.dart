@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(width: 20.w), // Increased gap between image and name
                   Expanded(
                     child: Text( // Name
-                      user.displayName ?? _firestoreUserName ?? 'Anonymous User',
+                      _firestoreUserName ?? user.displayName ?? 'Anonymous User',
                       style: theme.textTheme.displayMedium, // Increased size
                       overflow: TextOverflow.ellipsis, // Add ellipsis for long names
                     ),
