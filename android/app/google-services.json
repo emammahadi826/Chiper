@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "720039098644-0rrqhfhvcm33c6u7avhp54hk85n2056l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cipher.app",
+            "certificate_hash": "f32b6a6af389449c5a286b4ba0a9b0aa4e9bc243"
+          }
+        },
+        {
           "client_id": "720039098644-7q993lm7jtic27187a5875pcfmu275ln.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -13,6 +13,9 @@ import 'package:chiper/profile/profile_page.dart'; // Import ProfilePage
 import 'package:chiper/Services/firestore_service.dart'; // Import FirestoreService
 
 
+import 'package:chiper/notification/notify.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
 
@@ -33,6 +36,8 @@ class _UserHomePageState extends State<UserHomePage> {
   void initState() {
     super.initState();
     _loadUserData(); // Call a new method to load user data
+    NotificationService().init();
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   Future<void> _loadUserData() async {

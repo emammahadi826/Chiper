@@ -153,25 +153,29 @@ class NotificationService {
 
   /// Requests FCM permissions and retrieves the FCM token.
   Future<void> _requestFCMAndGetToken() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    try {
+      NotificationSettings settings = await _firebaseMessaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
 
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('NotificationService: User granted permission for FCM.');
-      String? token = await _firebaseMessaging.getToken();
-      print('NotificationService: FCM Token: $token');
-      // You might want to send this token to your backend server
-    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-      print('NotificationService: User granted provisional permission for FCM.');
-    } else {
-      print('NotificationService: User declined or has not accepted permission for FCM.');
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        print('NotificationService: User granted permission for FCM.');
+        String? token = await _firebaseMessaging.getToken();
+        print('NotificationService: FCM Token: $token');
+        // You might want to send this token to your backend server
+      } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+        print('NotificationService: User granted provisional permission for FCM.');
+      } else {
+        print('NotificationService: User declined or has not accepted permission for FCM.');
+      }
+    } catch (e) {
+      print('NotificationService: Failed to request FCM token: $e');
     }
   }
 

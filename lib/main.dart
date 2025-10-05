@@ -18,27 +18,12 @@ import 'package:flutter/foundation.dart'; // Import for defaultTargetPlatform
 import 'package:flutter_background/flutter_background.dart'; // Import flutter_background
 import 'package:firebase_messaging/firebase_messaging.dart'; // Import FirebaseMessaging
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform.copyWith(
-      messagingSenderId: '1076739724745', // Explicitly set messagingSenderId from google-services.json project_number
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
 
-  // Initialize Hive and register adapters
-  await Hive.initFlutter();
-  Hive.registerAdapter(TaskAdapter()); // Register the generated adapter
-
-  // Initialize NotificationService
-  await NotificationService().init();
-
-  // Initialize FCM token saving and listener for token refreshes
-  AuthService().initializeFcmTokenSaving();
-
-  // Register Firebase background message handler
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   // Configure and enable FlutterBackground (only for non-web platforms)
   if (!kIsWeb) {

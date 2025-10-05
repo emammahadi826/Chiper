@@ -244,9 +244,10 @@ class LoginPage extends StatelessWidget {
                   onPressed: onGoogleSignInPressed,
                   isLoading: isGoogleSignInLoading,
                   leadingIcon: Image.asset(
-                    'assets/google_logo.png',
+                    'Assets/google.png',
                     height: 24.h,
                     width: 24.w,
+                    fit: BoxFit.contain,
                   ),
                 ),
 

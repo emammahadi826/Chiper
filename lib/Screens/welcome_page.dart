@@ -62,10 +62,9 @@ class WelcomePage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/Welcome-page.jpg"),
+            image: AssetImage('Assets/Welcome.jpg'),
             fit: BoxFit.cover,
           ),
-          color: Colors.white, // Fixed to white background
         ),
         child: SafeArea(
           child: Padding(

@@ -69,13 +69,14 @@ class _AuthScreenState extends State<AuthScreen> {
             password: password,
           );
         } on FirebaseAuthException catch (e) {
+          print('Firebase Auth Error Code: ${e.code}');
           String errorMessage;
           if (e.code == 'user-not-found') {
             errorMessage = "No user found for that email.";
           } else if (e.code == 'wrong-password') {
             errorMessage = "Wrong password provided for that user.";
-          } else if (e.code == 'invalid-email') {
-            errorMessage = "The email address is not valid.";
+          } else if (e.code == 'invalid-credential') {
+            errorMessage = "Invalid credentials. Please check your email and password.";
           } else {
             errorMessage = e.message ?? "An unknown error occurred.";
           }
