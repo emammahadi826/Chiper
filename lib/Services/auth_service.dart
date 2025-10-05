@@ -81,47 +81,33 @@ class AuthService {
   /// like `local_auth` if required after successful sign-in.
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      /// Attempt to sign in with Google. This will open the Google account
-      /// selection dialog to the user.
+      print('Starting Google Sign-In...');
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      /// Check if the user cancelled the Google Sign-In process.
-      /// If `googleUser` is null, it means the user closed the dialog
-      /// without selecting an account or explicitly cancelled.
       if (googleUser == null) {
         print('Google Sign-In cancelled by user.');
         return null;
       }
+      print('Google user selected: ${googleUser.email}');
 
-      /// Obtain the authentication details from the Google user.
-      /// This includes the accessToken and idToken required for Firebase.
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      print('Got Google auth details.');
 
-      /// Create a Firebase Auth credential using the Google ID token and access token.
-      /// This credential will be used to sign in to Firebase.
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      print('Created Firebase credential.');
 
-      /// Sign in to Firebase with the Google credential.
-      /// This links the Google account to a Firebase user.
-      /// The returned `UserCredential` contains information about the signed-in user,
-      /// including `user.displayName`, `user.email`, and `user.photoURL`.
       UserCredential userCredential = await _auth.signInWithCredential(credential);
       await _saveFcmTokenToFirestore(userCredential.user?.uid); // Save FCM token
       print('Successfully signed in with Google to Firebase.');
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      /// Catch and handle specific Firebase Authentication errors.
-      /// Common errors include network issues, invalid credentials, etc.
-      print('Firebase Auth Error during Google Sign-In: ${e.message}');
-      // You can add more specific error handling or UI feedback here.
+      print('Firebase Auth Error during Google Sign-In: ${e.code} - ${e.message}');
       return null;
     } catch (e) {
-      /// Catch any other unexpected errors during the Google Sign-In process.
       print('General Error during Google Sign-In: $e');
-      // This can include issues with Google Play Services, device configuration, etc.
       return null;
     }
   }

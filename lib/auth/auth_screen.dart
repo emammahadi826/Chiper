@@ -146,11 +146,15 @@ class _AuthScreenState extends State<AuthScreen> {
         return;
       }
 
-      // The existing check for signInMethods.isEmpty might be problematic if the user expects
-      // to create a new account via Google Sign-In. However, the prompt states "Fix any misconfiguration
-      // that causes the 'PlatformException(sign_in_failed, ApiException: 10: )' error after account selection."
-      // This error is usually not caused by this logic.
-      // If the user wants to allow new Google sign-ups, this part needs to be changed.
+      // If the user is new, save their data to Firestore
+      if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+        await _firestoreService.saveUserData(
+          uid: userCredential.user!.uid,
+          name: userCredential.user!.displayName ?? 'User',
+          email: userCredential.user!.email ?? '',
+          role: 'user', // Default role for new users
+        );
+      }
 
       if (mounted) {
         Navigator.of(context).pushReplacement(
