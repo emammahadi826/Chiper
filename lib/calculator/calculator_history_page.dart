@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CalculatorHistoryPage extends StatefulWidget {
   const CalculatorHistoryPage({super.key});
@@ -190,7 +191,9 @@ class _CalculatorHistoryPageState extends State<CalculatorHistoryPage> {
       appBar: AppBar(
         title: Text(
           'Calculation History',
-          style: theme.appBarTheme.titleTextStyle,
+          style: GoogleFonts.roboto(
+            textStyle: theme.appBarTheme.titleTextStyle,
+          ),
         ),
         backgroundColor: theme.appBarTheme.backgroundColor,
         foregroundColor: theme.appBarTheme.foregroundColor,
@@ -363,9 +366,11 @@ class _CalculatorHistoryPageState extends State<CalculatorHistoryPage> {
                                               children: [
                                                 Text(
                                                   expression,
-                                                  style: TextStyle(
-                                                    fontSize: 16.sp, // Adjusted font size
-                                                    color: subColor,
+                                                  style: GoogleFonts.orbitron( // Use Orbitron font
+                                                    textStyle: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: subColor,
+                                                    ),
                                                   ),
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
@@ -373,10 +378,12 @@ class _CalculatorHistoryPageState extends State<CalculatorHistoryPage> {
                                                 SizedBox(height: 8.h), // Adjusted spacing
                                                 Text(
                                                   '= $result',
-                                                  style: TextStyle(
-                                                    fontSize: 22.sp, // Adjusted font size
-                                                    fontWeight: FontWeight.bold,
-                                                    color: mainColor,
+                                                  style: GoogleFonts.orbitron( // Use Orbitron font
+                                                    textStyle: TextStyle(
+                                                      fontSize: 22.sp,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: mainColor,
+                                                    ),
                                                   ),
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
@@ -430,9 +437,11 @@ class _CalculatorHistoryPageState extends State<CalculatorHistoryPage> {
           onPressed: _clearHistory,
           child: Text(
             'Clear All',
-            style: TextStyle(
-              color: theme.textTheme.bodyLarge!.color,
-              fontSize: 16.sp,
+            style: GoogleFonts.robotoMono(
+              textStyle: TextStyle(
+                color: theme.textTheme.bodyLarge!.color,
+                fontSize: 16.sp,
+              ),
             ),
           ),
         );

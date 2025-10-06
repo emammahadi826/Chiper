@@ -61,10 +61,7 @@ class _TaskHomePageState extends State<TaskHomePage> with SingleTickerProviderSt
         _isInitializing = false;
       });
     }
-    if (_taskBox.isEmpty) {
-      // Initial sync on startup only if the box is empty
-      await _taskUpdaterService.syncTasks();
-    }
+    await _taskUpdaterService.syncTasks();
   }
 
   void _addTask(String taskContent) async {

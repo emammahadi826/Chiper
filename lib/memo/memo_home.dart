@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chiper/Models/memo.dart';
@@ -355,8 +356,8 @@ class _MemoHomePageState extends State<MemoHomePage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            memo.title?.split(' ').first ?? 'Untitled Memo',
-                                            style: TextStyle(
+                                            memo.title ?? 'Untitled Memo',
+                                            style: GoogleFonts.merriweather(
                                               fontSize: 20.sp,
                                               fontWeight: FontWeight.bold,
                                               color: mainColor,

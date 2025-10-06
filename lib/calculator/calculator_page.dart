@@ -286,7 +286,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
       appBar: AppBar(
         title: Text(
           'Calculator',
-          style: Theme.of(context).appBarTheme.titleTextStyle,
+          style: GoogleFonts.roboto(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle,
+          ),
         ),
         elevation: 0,
         actions: [
@@ -322,7 +324,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
                   // Expression display
                   Text(
                     _formatExpressionForDisplay(_expression), // Formatted for display
-                    style: theme.textTheme.displayMedium!.copyWith(fontFamily: 'Roboto'),
+                    style: GoogleFonts.orbitron(
+                      textStyle: theme.textTheme.displayMedium,
+                    ),
                   ),
                   SizedBox(height: 5.h),
                   // Result display
@@ -330,7 +334,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
                     fit: BoxFit.contain,
                     child: Text(
                       _output, // Already formatted
-                      style: theme.textTheme.displayLarge!.copyWith(fontSize: 50.sp, fontFamily: 'Roboto'), // Decreased font size
+                      style: GoogleFonts.orbitron(
+                        textStyle: theme.textTheme.displayLarge!.copyWith(
+                          fontSize: 50.sp,
+                        ),
+                      ),
                       maxLines: 1,
                       textAlign: TextAlign.end,
                     ),

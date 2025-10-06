@@ -67,6 +67,12 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
+google_fonts:
+  fonts:
+    - family: Merriweather
+    - family: Roboto
+  allow_runtime_fetching: false
+
 flutter_launcher_icons:
   android: true
   ios: true

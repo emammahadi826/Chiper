@@ -20,6 +20,8 @@ import 'package:firebase_messaging/firebase_messaging.dart'; // Import FirebaseM
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

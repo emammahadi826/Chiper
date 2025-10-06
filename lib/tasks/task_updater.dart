@@ -47,13 +47,20 @@ class TaskUpdaterService {
   }
 
   Future<void> addTask(Task task) async {
-    if (currentUser == null) return;
+    print('addTask called with content: ${task.content}');
+    if (currentUser == null) {
+      print('TaskUpdaterService: User is not authenticated. Cannot add task.');
+      return;
+    }
+    print('Current user: ${currentUser?.uid}');
 
     // Add to local cache immediately
     await _taskBox.put(task.id, task);
+    print('Task saved to local cache with id: ${task.id}');
 
     // Then add to Firestore
     try {
+      print('Saving task to Firestore...');
       await _firestore
           .collection('users')
           .doc(currentUser!.uid)
@@ -62,6 +69,7 @@ class TaskUpdaterService {
           .set(task.toFirestoreMap());
       task.isSynced = true;
       await task.save();
+      print('Task saved to Firestore successfully.');
     } catch (e) {
       print('TaskUpdaterService: Error adding task to Firestore: $e');
     }
