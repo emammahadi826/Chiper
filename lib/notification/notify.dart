@@ -264,7 +264,7 @@ class NotificationService {
             body = 'Sir, the PC is OFF';
           }
 
-          await showBasicNotification(Random().nextInt(100000), title, body, _pcStatusChannelId);
+                    await showBasicNotification(Random().nextInt(100000), title, body, _pcStatusChannelId, payload: '');
 
           // Save notification to Firestore
           if (_auth.currentUser != null) {
