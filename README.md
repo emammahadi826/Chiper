@@ -72,4 +72,17 @@
 1.  এই রিপোজিটরিটি ক্লোন করুন।
 2.  আপনার সিস্টেমে Flutter SDK ইনস্টল করা আছে কিনা তা নিশ্চিত করুন।
 3.  প্রজেক্ট ডিরেক্টরিতে `flutter pub get` কমান্ডটি চালান।
-4.  একটি এমুলেটর বা 실제 ডিভাইস কানেক্ট করে `flutter run` কমান্ডটি চালান।
+4.  একটি এমুলেটর বা 실제 ডিভাইস কানেক্ট করে `flutter run` কমান্ডটি চালান。
+
+## Issues and Bugs Fixes and Update All in the App
+
+- Task and calculator page updated and bugs fixed
+- Update calculator Front style and Fix some issues
+- Update Memo page issues and change the font styles
+- Memo edit page save button postion fix
+- Memo edit page color issue fix
+- Update Profile page but not resolve issue
+- fix: Fix google sign in error now working
+- fix: Resolve multiple UI and auth issues
+- Update README.md
+- Initial commit
