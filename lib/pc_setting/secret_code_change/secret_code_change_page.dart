@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chiper/services/secret_code_service.dart';
@@ -119,7 +120,9 @@ class _SecretCodeChangePageState extends State<SecretCodeChangePage> {
       appBar: AppBar(
         title: Text(
           'Change Secret Code',
-          style: TextStyle(color: mainColor, fontSize: 20.sp),
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
         ),
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
@@ -221,13 +224,14 @@ class _SecretCodeChangePageState extends State<SecretCodeChangePage> {
         ),
         child: Text(
           text,
-          style: theme.textTheme.labelMedium?.copyWith(
-            color: theme.colorScheme.onSurface,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.normal,
+          style: GoogleFonts.montserrat(
+            textStyle: TextStyle(
+              color: theme.colorScheme.onSurface,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-      ),
+        ),      ),
     );
   }
 }

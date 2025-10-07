@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -46,10 +47,14 @@ class _TaskEditPageState extends State<TaskEditPage> {
             TextFormField(
               controller: _taskController,
               autofocus: true,
-              style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 16.sp),
+              style: GoogleFonts.righteous(
+                textStyle: TextStyle(color: theme.colorScheme.onSurface, fontSize: 16.sp),
+              ),
               decoration: InputDecoration(
                 labelText: 'Enter your task...',
-                labelStyle: TextStyle(color: theme.colorScheme.onSurface.withOpacity(0.7), fontSize: 16.sp),
+                labelStyle: GoogleFonts.righteous(
+                  textStyle: TextStyle(color: theme.colorScheme.onSurface.withOpacity(0.7), fontSize: 16.sp),
+                ),
                 filled: false,
                 border: UnderlineInputBorder(
                   borderSide: BorderSide(color: theme.colorScheme.onSurface.withOpacity(0.5), width: 1.5),
@@ -97,13 +102,14 @@ class _TaskEditPageState extends State<TaskEditPage> {
                 ),
                 child: Text(
                   'Save Task',
-                  style: theme.textTheme.labelMedium?.copyWith(
-                    color: theme.colorScheme.onSurface,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.normal,
+                  style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                      color: theme.colorScheme.onSurface,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ),
+                ),              ),
             ),
           ],
         ),

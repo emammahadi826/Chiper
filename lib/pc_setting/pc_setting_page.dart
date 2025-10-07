@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +38,9 @@ class _PcSettingPageState extends State<PcSettingPage> {
         ),
         title: Text(
           'PC Settings',
-          style: theme.appBarTheme.titleTextStyle,
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
         ),
         elevation: 0,
       ),
@@ -81,10 +84,12 @@ class _PcSettingPageState extends State<PcSettingPage> {
                       Expanded(
                         child: Text(
                           'Change Secret Code',
-                          style: TextStyle(
-                            color: theme.colorScheme.onSurface,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                              color: theme.colorScheme.onSurface,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

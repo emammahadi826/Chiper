@@ -76,6 +76,10 @@
 
 ## Issues and Bugs Fixes and Update All in the App
 
+- fix: Applied consistent font style from Memo Edit Page title to Task Edit Page input field and Task Home Page displayed tasks.
+- Applied consistent button text styling across Hide Page, Task Edit Page, and Secret Code Change Page. Also applied consistent header font style to PC Settings and Secret Code Change pages.
+- Removed UID Changer option from Hide Page.
+- Further reduced font size and ensured centering for 'no tasks' and 'no memos' messages.
 - Task and calculator page updated and bugs fixed
 - Update calculator Front style and Fix some issues
 - Update Memo page issues and change the font styles

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chiper/services/theme_notifier.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:async'; // Import for Timer
 import 'package:permission_handler/permission_handler.dart'; // Import permission_handler
 
@@ -125,7 +126,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text(
           'Settings',
-          style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 20.sp),
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
@@ -135,7 +138,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           SizedBox(height: 10.h), // Reduced gap below the header
           SwitchListTile(
-            title: Text('Dark Mode', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 16.sp)),
+            title: Text('Dark Mode', style: GoogleFonts.montserrat(color: Theme.of(context).colorScheme.onSurface, fontSize: 16.sp, fontWeight: FontWeight.w600)),
             value: themeProvider.themeMode == ThemeMode.dark,
             onChanged: (value) {
               themeProvider.setTheme(value ? ThemeMode.dark : ThemeMode.light);
@@ -143,7 +146,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             secondary: Icon(Icons.dark_mode, color: Theme.of(context).colorScheme.onSurface, size: 24.r),
           ),
           SwitchListTile(
-            title: Text('Notifications', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 16.sp)),
+            title: Text('Notifications', style: GoogleFonts.montserrat(color: Theme.of(context).colorScheme.onSurface, fontSize: 16.sp, fontWeight: FontWeight.w600)),
             value: _notificationStatus == 'Granted', // Set switch based on status
             onChanged: (value) async {
               if (value) {
@@ -158,7 +161,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             secondary: Icon(Icons.notifications, color: Theme.of(context).colorScheme.onSurface, size: 24.r),
           ),
           ListTile(
-            title: Text('Language', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 16.sp)),
+            title: Text('Language', style: GoogleFonts.montserrat(color: Theme.of(context).colorScheme.onSurface, fontSize: 16.sp, fontWeight: FontWeight.w600)),
             leading: Icon(Icons.language, color: Theme.of(context).colorScheme.onSurface, size: 24.r),
             onTap: () {
               // TODO: Implement navigation to language settings page

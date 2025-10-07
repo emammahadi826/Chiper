@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:chiper/pc_tools/shutdown_control.dart';
 import 'package:chiper/pc_setting/pc_setting_page.dart';
 import 'package:chiper/pc_tools/pc_tools.dart'; // Import the new PC Tools page
-import 'package:chiper/uid_changer/uid_change.dart'; // Import the UID Changer page
+
 
 import 'package:chiper/profile/profile_page.dart';
 import 'package:chiper/Screens/home_page.dart';
@@ -163,7 +164,12 @@ class _HidePageState extends State<HidePage> with WidgetsBindingObserver {
             MaterialPageRoute(builder: (context) => const UserHomePage()),
           ),
         ),
-        title: const Text('Hidden Page'),
+        title: Text(
+          'Hidden Page',
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -247,10 +253,12 @@ class _HidePageState extends State<HidePage> with WidgetsBindingObserver {
                                 Expanded(
                                   child: Text(
                                     'PC',
-                                    style: TextStyle(
-                                      color: mainColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: mainColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -314,10 +322,12 @@ class _HidePageState extends State<HidePage> with WidgetsBindingObserver {
                                 Expanded(
                                   child: Text(
                                     'PC Settings',
-                                    style: TextStyle(
-                                      color: mainColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: mainColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -382,10 +392,12 @@ class _HidePageState extends State<HidePage> with WidgetsBindingObserver {
                                 Expanded(
                                   child: Text(
                                     'PC Tools',
-                                    style: TextStyle(
-                                      color: mainColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: mainColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -395,74 +407,7 @@ class _HidePageState extends State<HidePage> with WidgetsBindingObserver {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                      child: Material(
-                        color: cardColor,
-                        borderRadius: BorderRadius.circular(12.0.r),
-                        elevation: 0,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (context, animation, secondaryAnimation) =>
-                                    const UidChangePage(), // Navigate to UidChangePage
-                                transitionsBuilder:
-                                    (context, animation, secondaryAnimation, child) {
-                                  const begin = Offset(1.0, 0.0);
-                                  const end = Offset.zero;
-                                  const curve = Curves.easeOutCubic;
 
-                                  var tween = Tween(begin: begin, end: end)
-                                      .chain(CurveTween(curve: curve));
-
-                                  return SlideTransition(
-                                    position: animation.drive(tween),
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          borderRadius: BorderRadius.circular(12.0.r),
-                          splashColor: mainColor.withOpacity(0.1),
-                          highlightColor: mainColor.withOpacity(0.05),
-                          child: Container(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                            decoration: BoxDecoration(
-                              color: cardColor,
-                              borderRadius: BorderRadius.circular(12.0.r),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: shadowColor,
-                                  blurRadius: 8.0.r,
-                                  offset: Offset(0, 4.r),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.perm_identity,
-                                    color: mainColor, size: 24.r),
-                                SizedBox(width: 16.w),
-                                Expanded(
-                                  child: Text(
-                                    'UID Changer',
-                                    style: TextStyle(
-                                      color: mainColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       child: Material(
@@ -518,10 +463,12 @@ class _HidePageState extends State<HidePage> with WidgetsBindingObserver {
                                 Expanded(
                                   child: Text(
                                     'Profile',
-                                    style: TextStyle(
-                                      color: mainColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
+                                    style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                        color: mainColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ),

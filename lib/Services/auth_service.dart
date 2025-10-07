@@ -57,6 +57,17 @@ class AuthService {
   // Sign in with email and password
   Future<UserCredential?> signInWithEmailAndPassword(String email, String password) async {
     try {
+      // Check if the user exists with a different sign-in method
+      final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
+
+      if (signInMethods.contains('google.com')) {
+        // If the user signed up with Google, guide them to use Google Sign-In
+        throw FirebaseAuthException(
+          code: 'google-sign-in',
+          message: 'Please sign in with Google.',
+        );
+      }
+
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -65,7 +76,7 @@ class AuthService {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       print('Firebase Auth Error: ${e.message}');
-      return null;
+      rethrow; // Rethrow the exception to be caught in the UI
     } catch (e) {
       print('Error during sign in: $e');
       return null;

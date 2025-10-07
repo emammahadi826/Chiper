@@ -209,7 +209,9 @@ class _MemoHomePageState extends State<MemoHomePage> {
           children: [
             Text(
               _isSelectionMode ? '${_selectedMemos.length} Selected' : 'Memo',
-              style: theme.appBarTheme.titleTextStyle?.copyWith(color: mainColor),
+              style: GoogleFonts.righteous(
+                textStyle: theme.appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp, color: mainColor),
+              ),
             ),
             if (_isSelectionMode)
               IconButton(
@@ -241,11 +243,17 @@ class _MemoHomePageState extends State<MemoHomePage> {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: mainColor)));
           }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No memos yet. Tap + to create one!', style: TextStyle(color: subColor)));
-          }
 
           final memos = _sortMemos(snapshot.data!);
+
+          if (memos.isEmpty) {
+            return Center(
+              child: Text(
+                'No memos yet. Create one using the + button!',
+                style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+              ),
+            );
+          }
 
           return ListView.builder(
             itemCount: memos.length,

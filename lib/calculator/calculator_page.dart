@@ -286,8 +286,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
       appBar: AppBar(
         title: Text(
           'Calculator',
-          style: GoogleFonts.roboto(
-            textStyle: Theme.of(context).appBarTheme.titleTextStyle,
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
           ),
         ),
         elevation: 0,

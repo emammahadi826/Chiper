@@ -216,11 +216,16 @@ class _MemoEditorPageState extends State<MemoEditorPage> {
                       height: 20.r,
                       child: CircularProgressIndicator(strokeWidth: 2.r, color: mainColor),
                     )
-                  : Text('Save', style: TextStyle(color: mainColor, fontSize: 18.sp)),
+                  : Text('Save', style: GoogleFonts.righteous(color: mainColor, fontSize: 18.sp)),
             ),
           ),
         ],
-        title: null, // No title in AppBar
+        title: Text(
+          'Edit Memo',
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
+        ),
         backgroundColor: theme.appBarTheme.backgroundColor, // Use theme's surface color for AppBar background
         elevation: 0.0, // No shadow for AppBar
         scrolledUnderElevation: 0.0, // Ensure no elevation when scrolled under

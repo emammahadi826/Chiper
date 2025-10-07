@@ -191,8 +191,8 @@ class _CalculatorHistoryPageState extends State<CalculatorHistoryPage> {
       appBar: AppBar(
         title: Text(
           'Calculation History',
-          style: GoogleFonts.roboto(
-            textStyle: theme.appBarTheme.titleTextStyle,
+          style: GoogleFonts.righteous(
+            textStyle: theme.appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
           ),
         ),
         backgroundColor: theme.appBarTheme.backgroundColor,
@@ -437,10 +437,10 @@ class _CalculatorHistoryPageState extends State<CalculatorHistoryPage> {
           onPressed: _clearHistory,
           child: Text(
             'Clear All',
-            style: GoogleFonts.robotoMono(
+            style: GoogleFonts.righteous(
               textStyle: TextStyle(
                 color: theme.textTheme.bodyLarge!.color,
-                fontSize: 16.sp,
+                fontSize: 18.sp,
               ),
             ),
           ),

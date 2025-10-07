@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async'; // Import for Timer
+import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -134,7 +135,9 @@ class _NotificationPageState extends State<NotificationPage> {
         ),
         title: Text(
           'Notifications',
-          style: TextStyle(color: mainColor),
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
         ),
         backgroundColor: theme.appBarTheme.backgroundColor ?? theme.colorScheme.surface,
         elevation: theme.appBarTheme.elevation ?? 0,

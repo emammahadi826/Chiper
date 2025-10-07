@@ -4,6 +4,7 @@ import 'package:flutter/services.dart'; // For HapticFeedback
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ShutdownControlPage extends StatefulWidget {
   const ShutdownControlPage({super.key});
@@ -206,7 +207,9 @@ class _ShutdownControlPageState extends State<ShutdownControlPage> with SingleTi
       appBar: AppBar(
         title: Text(
           "Shutdown Control",
-          style: TextStyle(color: mainColor),
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
         ),
         backgroundColor: theme.scaffoldBackgroundColor,
         iconTheme: IconThemeData(color: mainColor),

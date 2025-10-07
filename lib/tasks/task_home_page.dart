@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chiper/tasks/task_edit_page.dart';
@@ -138,8 +139,10 @@ class _TaskHomePageState extends State<TaskHomePage> with SingleTickerProviderSt
         if (filteredTasks.isEmpty) {
           return Center(
             child: Text(
-              isCompletedTab ? 'No completed tasks yet.' : 'No current tasks yet. Add one!',
-              style: theme.textTheme.bodySmall,
+              isCompletedTab
+                  ? 'No completed tasks yet. Keep up the good work!'
+                  : 'No incomplete tasks. Add one using the + button!',
+              style: GoogleFonts.roboto(fontSize: 14.sp, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
             ),
           );
         }
@@ -231,15 +234,17 @@ class _TaskHomePageState extends State<TaskHomePage> with SingleTickerProviderSt
                             Expanded(
                               child: Text(
                                 task.content,
-                                style: TextStyle(
-                                  fontSize: 18.sp, // Adjusted font size for tasks
-                                  fontWeight: FontWeight.w500, // Adjusted font weight
-                                  color: task.isCompleted
-                                      ? theme.hintColor // Use hintColor for completed tasks
-                                      : mainColor, // Use mainColor for incomplete tasks
-                                  decoration: task.isCompleted
-                                      ? TextDecoration.lineThrough
-                                      : TextDecoration.none,
+                                style: GoogleFonts.righteous(
+                                  textStyle: TextStyle(
+                                    fontSize: 18.sp, // Adjusted font size for tasks
+                                    fontWeight: FontWeight.w500, // Adjusted font weight
+                                    color: task.isCompleted
+                                        ? theme.hintColor // Use hintColor for completed tasks
+                                        : mainColor, // Use mainColor for incomplete tasks
+                                    decoration: task.isCompleted
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                  ),
                                 ),
                                 maxLines: 1, // Allow up to 1 line for task content
                                 overflow: TextOverflow.ellipsis,

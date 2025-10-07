@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UidChangePage extends StatefulWidget {
   const UidChangePage({super.key});
@@ -156,7 +157,12 @@ class _UidChangePageState extends State<UidChangePage> with WidgetsBindingObserv
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context), // Go back to previous page
         ),
-        title: const Text('UID Changer'),
+        title: Text(
+          'UID Changer',
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
+        ),
       ),
       body: Column(
         children: [

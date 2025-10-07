@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:chiper/screens/welcome_page.dart';
 import 'package:chiper/screens/setting.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:chiper/Services/auth_service.dart'; // Import AuthService
 import 'package:chiper/calculator/calculator_page.dart'; // Import CalculatorPage
@@ -35,12 +36,14 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   void initState() {
     super.initState();
+    print('UserHomePage: initState called.');
     _loadUserData(); // Call a new method to load user data
     NotificationService().init();
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   Future<void> _loadUserData() async {
+    print('UserHomePage: _loadUserData called.');
     final user = _auth.currentUser;
     if (user != null) {
       final userData = await _firestoreService.getUserData(uid: user.uid);
@@ -50,10 +53,12 @@ class _UserHomePageState extends State<UserHomePage> {
         });
       }
     }
+    print('UserHomePage: _loadUserData completed. User: ${user?.uid}');
   }
 
   @override
   void dispose() {
+    print('UserHomePage: dispose called.');
     super.dispose();
   }
 
@@ -78,6 +83,7 @@ class _UserHomePageState extends State<UserHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('UserHomePage: build called. Current index: $_currentIndex');
     final theme = Theme.of(context);
     final mainColor = theme.colorScheme.onSurface;
     final subColor = theme.colorScheme.onSurface.withOpacity(0.6);
@@ -292,21 +298,16 @@ class _UserHomePageState extends State<UserHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        userName,
-                        style: TextStyle(
-                          color: mainColor,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
+                        userName.split(' ').first,
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            color: mainColor,
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                       ),
-                      Text(
-                        userEmail,
-                        style: TextStyle(
-                          color: subColor,
-                          fontSize: 16.sp,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+
                     ],
                   ),
                 ),
@@ -352,10 +353,12 @@ class _UserHomePageState extends State<UserHomePage> {
                 Expanded(
                   child: Text(
                     title,
-                    style: TextStyle(
-                      color: mainColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                        color: mainColor,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),

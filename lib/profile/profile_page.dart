@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // To run this example, you need to set up Firebase in your project.
 // You'll also need to add the following dependencies to your pubspec.yaml:
@@ -60,7 +61,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor, // Changed to match hide_page
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(
+          'Profile',
+          style: GoogleFonts.righteous(
+            textStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
+        ),
         // Use colors from the theme for a consistent look
         backgroundColor: theme.appBarTheme.backgroundColor, // Changed to match app bar theme
         elevation: 0,
@@ -77,35 +83,38 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   SizedBox(width: 10.w), // Gap on the left of the image
                   CircleAvatar(
-                    radius: 40.r, // Image size
-                    backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-                    child: Text(
-                      user.email != null && user.email!.isNotEmpty
-                          ? user.email![0].toUpperCase()
-                          : '?',
-                      style: theme.textTheme.headlineSmall!.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    radius: 40.r,
+                    backgroundImage: user.photoURL != null ? NetworkImage(user.photoURL!) : null,
+                    child: user.photoURL == null
+                        ? Text(
+                            user.email != null && user.email!.isNotEmpty
+                                ? user.email![0].toUpperCase()
+                                : '?',
+                            style: theme.textTheme.headlineSmall!.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : null,
                   ),
                   SizedBox(width: 20.w), // Increased gap between image and name
                   Expanded(
-                    child: Text( // Name
-                      _firestoreUserName ?? user.displayName ?? 'Anonymous User',
-                      style: theme.textTheme.displayMedium, // Increased size
-                      overflow: TextOverflow.ellipsis, // Add ellipsis for long names
+                    child: Text(
+                      // Show only the first name
+                      (_firestoreUserName ?? user.displayName ?? 'Anonymous User').split(' ').first,
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          color: theme.colorScheme.onSurface,
+                          fontSize: 26.sp,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 8.h), // Small gap between name/image row and email
-              Text( // Email below
-                user.email ?? '',
-                style: theme.textTheme.bodyMedium!.copyWith(
-                  color: theme.textTheme.bodyMedium!.color!.withOpacity(0.6),
-                ),
-              ),
+
               SizedBox(height: 32.h),
 
               // Card for user ID

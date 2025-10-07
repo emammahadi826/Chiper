@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 
 // A custom track shape for the slider that mimics the gradient-like effect.
 class GradientSliderTrackShape extends RoundedRectSliderTrackShape {
@@ -404,7 +405,9 @@ class _PCToolsPageState extends State<PCToolsPage> {
         ),
         title: Text(
           'PC Tools',
-          style: theme.appBarTheme.titleTextStyle,
+          style: GoogleFonts.righteous(
+            textStyle: theme.appBarTheme.titleTextStyle?.copyWith(fontSize: 24.sp),
+          ),
         ),
         elevation: 0, // Consistent with CalculatorPage
       ),
